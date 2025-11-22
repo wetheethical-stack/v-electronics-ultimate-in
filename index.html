@@ -1,140 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>V Electronics — Coming Soon</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V Electronics Coming Soon</title>
 
-  <!-- Put font preconnects to speed up Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Favicon -->
+<link rel="icon" href="images/VLOGO.jpg">
 
-  <!-- favicon: ensure file is at /VLOGO.jpg in your deployed public folder -->
-  <link rel="icon" href="/VLOGO.jpg">
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <meta name="theme-color" content="#000000">
+<style>
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;}
+body,html{width:100%;min-height:100%;font-family:'Poppins',sans-serif;background:#050505;color:#fff;overflow-x:hidden;}
 
-  <style>
-  /* ===== RESET ===== */
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body,html{width:100%; min-height:100%; font-family:'Poppins',sans-serif; background:#050505; color:#fff; overflow-x:hidden;}
+/* HEADER */
+header{
+  position:fixed;top:0;left:0;width:100%;padding:15px 20px;
+  display:flex;justify-content:space-between;align-items:center;
+  backdrop-filter:blur(10px);background:rgba(0,0,0,0.6);z-index:1002;
+}
+header img{
+  height:50px;
+  animation:logoGlow 2s infinite ease-in-out;
+}
+@keyframes logoGlow{
+  0%,100%{filter:drop-shadow(0 0 10px #0ff);}
+  50%{filter:drop-shadow(0 0 20px #0ff);}
+}
 
-  /* ===== HEADER ===== */
-  header{
-    position:fixed; top:0; left:0; width:100%; padding:15px 20px;
-    display:flex; justify-content:space-between; align-items:center;
-    backdrop-filter:blur(10px); background:rgba(0,0,0,0.6); z-index:1002;
-  }
-  header img{height:50px; animation:logoGlow 2s infinite ease-in-out;}
-  @keyframes logoGlow{
-    0%,100%{filter:drop-shadow(0 0 10px #0ff);}
-    50%{filter:drop-shadow(0 0 20px #0ff);}
-  }
+/* NAV */
+nav{display:flex;gap:15px;}
+nav a{
+  color:#fff;text-decoration:none;font-weight:600;padding:8px 12px;border-radius:8px;
+  position:relative;white-space:nowrap;transition:0.3s;
+}
+nav a:hover{color:#0ff;}
+nav a::after{
+  content:'';position:absolute;left:12px;right:12px;bottom:0;height:2px;
+  background:linear-gradient(90deg,#0ff,#ffa200);
+  transform:scaleX(0);transform-origin:bottom right;transition:0.3s;
+}
+nav a:hover::after,nav a.active::after{transform:scaleX(1);transform-origin:bottom left;}
 
-  /* ===== NAV LINKS ===== */
-  nav{display:flex; gap:15px;}
-  nav a{
-    color:#fff; text-decoration:none; font-weight:600; padding:8px 12px; border-radius:8px;
-    position:relative; white-space:nowrap; transition:0.3s;
-  }
-  nav a:hover{color:rgb(52,196,196);}
-  nav a::after{
-    content:''; position:absolute; left:12px; right:12px; bottom:0; height:2px;
-    background:linear-gradient(90deg,#0ff,#ffa200);
-    transform:scaleX(0); transform-origin:bottom right; transition:transform 0.3s ease-out;
-  }
-  nav a:hover::after, nav a.active::after{ transform:scaleX(1); transform-origin:bottom left; }
+/* MOBILE MENU TOGGLE */
+.menu-toggle{
+  display:none;flex-direction:column;justify-content:space-between;width:30px;height:22px;cursor:pointer;z-index:1003;
+}
+.menu-toggle span{
+  height:3px;width:100%;background:#0ff;border-radius:2px;transition:0.3s;
+}
+.menu-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.menu-toggle.open span:nth-child(2){opacity:0;}
+.menu-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
 
-  /* ===== MOBILE MENU TOGGLE ===== */
-  .menu-toggle{ display:none; flex-direction:column; justify-content:space-between; width:30px; height:22px; cursor:pointer; z-index:1003; }
-  .menu-toggle span{ display:block; height:3px; width:100%; background:#0ff; border-radius:2px; transition:all 0.3s ease; }
-  .menu-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
-  .menu-toggle.open span:nth-child(2){opacity:0;}
-  .menu-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+/* MOBILE NAV */
+.mobile-nav{
+  display:flex;flex-direction:column;justify-content:center;align-items:center;gap:20px;
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.95);backdrop-filter:blur(10px);
+  transform:translateY(-100%);opacity:0;transition:0.4s;z-index:1001;
+}
+.mobile-nav.show{transform:translateY(0);opacity:1;}
+.mobile-nav a{
+  font-size:1.2rem;color:#0ff;text-decoration:none;position:relative;
+}
+.mobile-nav a:hover{color:#fff;text-shadow:0 0 8px #0ff,0 0 15px #f0f;}
+.mobile-nav a::after{
+  content:'';position:absolute;left:0;bottom:-5px;width:100%;height:2px;background:linear-gradient(90deg,#0ff,#ff0);
+  transform:scaleX(0);transition:0.3s;
+}
+.mobile-nav a:hover::after,.mobile-nav a.active::after{transform:scaleX(1);}
 
-  /* ===== MOBILE NAV ===== */
-  .mobile-nav{
-    display:flex; flex-direction:column; justify-content:center; align-items:center; gap:20px;
-    position:fixed; top:0; left:0; width:100%; height:100%;
-    background:rgba(0,0,0,0.95); backdrop-filter:blur(10px);
-    transform:translateY(-100%); opacity:0; transition:0.4s ease; z-index:1001;
-  }
-  .mobile-nav.show{transform:translateY(0); opacity:1;}
-  .mobile-nav a{ font-size:1.2rem; color:#0ff; text-decoration:none; position:relative; }
-  .mobile-nav a::after{ content:''; position:absolute; left:0; bottom:-5px; width:100%; height:2px; background:linear-gradient(90deg,#0ff,#ff0); transform:scaleX(0); transform-origin:right; transition:0.3s; }
-  .mobile-nav a:hover::after, .mobile-nav a.active::after{ transform:scaleX(1); transform-origin:left; }
-  .mobile-nav a:hover{ color:#fff; text-shadow:0 0 8px #0ff,0 0 15px #f0f; }
+/* HERO */
+.hero{
+  min-height:100vh;padding-top:80px;position:relative;text-align:center;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;width:100%;height:100%;top:0;left:0;
+  background:linear-gradient(120deg,#0ff,#f0f,#ff0,#0ff);background-size:600% 600%;
+  animation:gradientMove 25s ease infinite;opacity:0.1;
+}
+@keyframes gradientMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
 
-  /* ===== HERO ===== */
-  .hero{ position:relative; min-height:100vh; padding-top:80px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; overflow:hidden; z-index:0;}
-  .hero::before{
-    content:""; position:absolute; top:0; left:0; width:100%; height:100%;
-    background:linear-gradient(120deg,#0ff,#f0f,#ff0,#0ff); background-size:600% 600%;
-    animation:gradientMove 25s ease infinite; z-index:0; opacity:0.1;
-  }
-  @keyframes gradientMove{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
-  .wavy-neon-line{position:absolute; width:100%; height:150px; bottom:10%; left:0; background:linear-gradient(90deg,transparent,#f0f,#ff0,#0ff,transparent); background-size:200% 100%; filter:blur(20px); animation:waveFlow 15s linear infinite; opacity:0.7; z-index:0;}
-  @keyframes waveFlow{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+.wavy-neon-line{
+  position:absolute;width:100%;height:150px;bottom:10%;left:0;
+  background:linear-gradient(90deg,transparent,#f0f,#ff0,#0ff,transparent);
+  background-size:200% 100%;filter:blur(20px);animation:waveFlow 15s linear infinite;opacity:0.7;
+}
+@keyframes waveFlow{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
 
-  .hero-content{ position:relative; z-index:2; display:flex; flex-direction:column; gap:15px; opacity:0; transform:scale(0.95); animation:heroContentIntro 1s ease-out forwards; animation-delay:0.5s; max-width:90%; }
-  .hero-content h1{ font-family:'Orbitron',sans-serif; font-size:2.5rem; color:#0ff; text-transform:uppercase; letter-spacing:5px; opacity:1; position:relative; white-space:nowrap; }
-  .hero-content p{ font-size:1rem;color:#fff;max-width:600px; }
+.hero-content{
+  z-index:2;display:flex;flex-direction:column;gap:15px;
+  opacity:0;transform:scale(0.9);animation:heroContentIntro 1s forwards 0.5s;
+}
+@keyframes heroContentIntro{
+  to{opacity:1;transform:scale(1);}
+}
 
-  /* ===== COUNTDOWN ===== */
-  .countdown-container{display:flex; gap:10px; margin-top:15px; justify-content:center; flex-wrap:wrap;}
-  .countdown-box{background:rgba(0,255,255,0.08); backdrop-filter:blur(8px); border:1px solid rgba(0,255,255,0.2); padding:10px 15px; border-radius:12px; min-width:50px; text-align:center; box-shadow:0 0 15px rgba(0,255,255,0.3);}
-  .countdown-box span{font-family:'Orbitron',sans-serif; font-size:1.5rem; color:#0ff; font-weight:bold; text-shadow:0 0 5px #0ff,0 0 10px #f0f;}
-  .countdown-box label{font-size:0.7rem;color:#fff;margin-top:3px;}
+.hero-content h1{
+  font-family:'Orbitron',sans-serif;font-size:2.5rem;color:#0ff;text-transform:uppercase;letter-spacing:5px;
+}
+.hero-content p{font-size:1rem;max-width:650px;margin:auto;}
 
-  footer{text-align:center;padding:15px 10px;color:#aaa;font-size:0.8rem;background:rgba(0,0,0,0.6);backdrop-filter:blur(5px);}
+/* COUNTDOWN */
+.countdown-container{display:flex;gap:10px;margin-top:15px;justify-content:center;flex-wrap:wrap;}
+.countdown-box{
+  background:rgba(0,255,255,0.08);border:1px solid rgba(0,255,255,0.2);
+  padding:10px 15px;border-radius:12px;min-width:55px;text-align:center;
+  backdrop-filter:blur(8px);box-shadow:0 0 15px rgba(0,255,255,0.3);
+}
+.countdown-box span{
+  font-family:'Orbitron',sans-serif;font-size:1.5rem;color:#0ff;font-weight:bold;
+  text-shadow:0 0 5px #0ff,0 0 10px #f0f;
+}
+.countdown-box label{font-size:0.75rem;color:#fff;margin-top:3px;display:block}
 
-  @keyframes heroContentIntro{to{opacity:1; transform:scale(1);}}
+/* FOOTER */
+footer{
+  text-align:center;padding:15px;color:#aaa;font-size:0.8rem;
+  background:rgba(0,0,0,0.6);backdrop-filter:blur(5px);
+}
 
-  /* RESPONSIVE */
-  @media(max-width:768px){ nav{display:none;} .menu-toggle{display:flex;} }
-  @media(max-width:480px){ .hero-content h1{font-size:1.8rem; letter-spacing:2px;} .countdown-box span{font-size:1.2rem;} .countdown-box{min-width:unset; padding:5px;} }
-  </style>
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{display:none;}
+  .menu-toggle{display:flex;}
+}
+@media(max-width:480px){
+  .hero-content h1{font-size:1.8rem;letter-spacing:2px;}
+  .countdown-box span{font-size:1.2rem;}
+  .countdown-box{padding:6px;}
+}
+</style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
-  <!-- Use a picture element with webp for better compression; ensure files exist in /public -->
-  <a href="/" aria-label="V Electronics Home">
+  <a href="index.html">
     <picture>
-      <source srcset="/VLOGO.webp" type="image/webp">
-      <img src="/VLOGO.jpg" alt="V Electronics logo" height="50" decoding="async" loading="eager">
+      <source srcset="images/VLOGO.webp" type="image/webp">
+      <img src="images/VLOGO.jpg" alt="V Electronics Logo">
     </picture>
   </a>
 
   <nav>
-    <a href="/index" class="active">Home</a>
-    <a href="/information.html">Shop</a>
-    <a href="/information.html">About</a>
-    <a href="/information.html">Blogs</a>
-    <a href="/information.html">Forum</a>
-    <a href="/information.html">Enquiry</a>
-    <a href="/information.html">Info</a>
+    <a class="active" href="index.html">Home</a>
+    <a href="information.html">Shop</a>
+    <a href="information.html">About</a>
+    <a href="information.html">Blogs</a>
+    <a href="information.html">Forum</a>
+    <a href="information.html">Enquiry</a>
+    <a href="information.html">Info</a>
   </nav>
 
-  <div class="menu-toggle" role="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></div>
+  <div class="menu-toggle">
+    <span></span><span></span><span></span>
+  </div>
 </header>
 
-<div class="mobile-nav" aria-hidden="true">
-  <a href="/index" class="active">Home</a>
-  <a href="/information.html">Shop</a>
-  <a href="/information.html">About</a>
-  <a href="/information.html">Blogs</a>
-  <a href="/information.html">Forum</a>
-  <a href="/information.html">Enquiry</a>
-  <a href="/information.html">Info</a>
+<!-- MOBILE NAV -->
+<div class="mobile-nav">
+  <a class="active" href="index.html">Home</a>
+  <a href="information.html">Shop</a>
+  <a href="information.html">About</a>
+  <a href="information.html">Blogs</a>
+  <a href="information.html">Forum</a>
+  <a href="information.html">Enquiry</a>
+  <a href="information.html">Info</a>
 </div>
 
+<!-- HERO -->
 <div class="hero">
-  <div class="wavy-neon-line" aria-hidden="true"></div>
+  <div class="wavy-neon-line"></div>
+
   <div class="hero-content">
     <h1>COMING SOON</h1>
-    <p>V Electronics Launch — Bringing high-tech electronics & robotics closer to you! with 24687+ components around the world!</p>
+    <p>
+      V Electronics Launch — Bringing high-tech electronics & robotics closer to you!
+      With 24,687+ components available worldwide.
+    </p>
 
     <div class="countdown-container" id="countdown">
       <div class="countdown-box"><span id="days">00</span><label>d</label></div>
@@ -145,54 +204,50 @@
   </div>
 </div>
 
+
+<!-- FOOTER -->
 <footer>
   <p>V ELECTRONICS PVT LTD | Pune | +91 7892719496 | care.invelectronicspvtltd@gmail.com</p>
   <p>© 2025 V Electronics</p>
 </footer>
 
+
 <script>
-/* Countdown */
-function updateCountdown() {
-  const launchDate = new Date("2025-12-15T10:00:00+05:30").getTime();
-  const now = Date.now();
-  const distance = launchDate - now;
-  if (distance <= 0) {
-    document.getElementById("countdown").innerHTML = "<div style='color:#0ff;font-weight:700'>We Are Live!</div>";
+// COUNTDOWN
+function updateCountdown(){
+  const launchDate=new Date("2025-12-15T10:00:00+05:30").getTime();
+  const now=Date.now();
+  const diff=launchDate-now;
+
+  if(diff<=0){
+    document.getElementById("countdown").innerHTML="<span style='color:#0ff'>We Are Live!</span>";
     return;
   }
-  const days = Math.floor(distance / (1000*60*60*24));
-  const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-  const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-  const seconds = Math.floor((distance % (1000*60)) / 1000);
-  const pad = n => String(n).padStart(2, '0');
-  document.getElementById("days").innerText = pad(days);
-  document.getElementById("hours").innerText = pad(hours);
-  document.getElementById("minutes").innerText = pad(minutes);
-  document.getElementById("seconds").innerText = pad(seconds);
+
+  const d=Math.floor(diff/(1000*60*60*24));
+  const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  const m=Math.floor((diff%(1000*60*60))/(1000*60));
+  const s=Math.floor((diff%(1000*60))/1000);
+
+  const pad=n=>String(n).padStart(2,'0');
+
+  document.getElementById("days").innerText=pad(d);
+  document.getElementById("hours").innerText=pad(h);
+  document.getElementById("minutes").innerText=pad(m);
+  document.getElementById("seconds").innerText=pad(s);
 }
 updateCountdown();
-setInterval(updateCountdown, 1000);
+setInterval(updateCountdown,1000);
 
-/* Mobile toggle */
-const toggle = document.querySelector('.menu-toggle');
-const mobileNav = document.querySelector('.mobile-nav');
-toggle.addEventListener('click', () => {
-  const open = toggle.classList.toggle('open');
+// MOBILE MENU
+const toggle=document.querySelector('.menu-toggle');
+const mobileNav=document.querySelector('.mobile-nav');
+
+toggle.addEventListener('click',()=>{
+  toggle.classList.toggle('open');
   mobileNav.classList.toggle('show');
-  toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-  mobileNav.setAttribute('aria-hidden', open ? 'false' : 'true');
-});
-document.querySelectorAll('.mobile-nav a').forEach(link => {
-  link.addEventListener('click', () => {
-    toggle.classList.remove('open');
-    mobileNav.classList.remove('show');
-    toggle.setAttribute('aria-expanded', 'false');
-    mobileNav.setAttribute('aria-hidden', 'true');
-  });
 });
 </script>
 
 </body>
 </html>
-
-
